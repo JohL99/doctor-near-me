@@ -2,11 +2,15 @@
 <html>
  
 <head>
+    {% block title %}
     <title>Home</title>
+    {% endblock %}
 </head>
  
 <body>
     <h2>Welcome To Doctor Near Me</h2>
+ <!-- this section can be replaced by a child document -->  
+    {% block body %}
     <h4>Map</h4>
     <ul>
         <li><a href="{{ url_for('map') }}">
@@ -14,14 +18,7 @@
             </a>
         </li>
     </ul>
- <!-- this section can be replaced by a child document -->  
-{% block body %}
- 
- 
-<p>This is a Flask application.</p>
- 
- 
-{% endblock %}
+    {% endblock %}
  
  
 </body>

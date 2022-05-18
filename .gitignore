@@ -12,3 +12,8 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+config/
+config.py
+keys/
+gmaps.txt

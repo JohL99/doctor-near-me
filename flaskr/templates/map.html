@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html>
- 
-<head>
-    <title>Home</title>
-</head>
- 
-<body>
-    <h2>Welcome To Doctor Near Me</h2>
-    <h4>Map</h4>
- <!-- this section can be replaced by a child document -->  
-{% block body %}
- 
- 
-<p>This is a Flask application.</p>
- 
- 
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Map</title>
 {% endblock %}
- 
- 
-</body>
- 
-</html>
+
+{% block body %} 
+    <ul>
+        <li>
+            <a href="{{ url_for('index') }}">
+                home
+            </a>
+        </li>
+    <p>This is a map.</p>
+{% endblock %}
