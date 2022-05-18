@@ -11,14 +11,14 @@ app = Flask(__name__)
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
 # the associated function.
-@app.route('/test')
-def hello_world():
-    return 'Hello World'
-
-
 @app.route('/')
-def base():
+def index():
     return render_template("base.html")
+
+
+@app.route('/map')
+def map():
+    return render_template("map.html")
 
 
 # main driver function
