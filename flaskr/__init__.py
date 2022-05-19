@@ -2,6 +2,8 @@
 # An object of Flask class is our WSGI application.
 from flask import Flask, render_template
 
+from src import objects as maps
+
 
 # Flask constructor takes the name of
 # current module (__name__) as argument.
@@ -17,8 +19,9 @@ def index():
 
 
 @app.route('/map')
-def map():
-    return render_template("map.html")
+def mapView():
+    mapInst = maps.maps.GMAPS("JohL99.za@ganil.com", "")
+    return render_template("map.html", mapInst=mapInst)
 
 
 # main driver function
