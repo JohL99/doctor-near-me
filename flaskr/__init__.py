@@ -21,7 +21,7 @@ def index():
 
 @app.route('/map')
 def mapView():
-    return render_template("map.html")
+    return render_template("map.html", url=MapViewUrl("place"))
     # return render_template("map.html")
 
 
