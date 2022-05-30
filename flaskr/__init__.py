@@ -24,9 +24,11 @@ app.config['SECRET_KEY'] = 'thisissecret'
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
-# The route() function of the Flask class is a decorator,
-# which tells the application which URL should call
-# the associated function.
+@app.route('/')
+def root():
+    return redirect(url_for('index'))
+
+
 @app.route('/index')
 def index():
     return render_template("base.html")
