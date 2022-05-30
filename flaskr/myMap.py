@@ -1,7 +1,6 @@
 # ---------------------------------------------------------------------------------------------------------------------------------
 # Map View source
-# TODO:
-# 1. mark major medical facilities on the map
+# TODO: mark major medical facilities on the map
 # ---------------------------------------------------------------------------------------------------------------------------------
 
 from flaskr.config import MapApi 
@@ -124,4 +123,3 @@ class SearchQuery:
     query2 = SearchQuery_2.next()
     print(query2)
 """
-print(GetLocation())
