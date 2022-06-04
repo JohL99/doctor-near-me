@@ -17,3 +17,5 @@ config/
 config.py
 keys/
 gmaps.txt
+
+ajax/

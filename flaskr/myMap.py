@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------------------------------------------------------------
 
 from flaskr.config import MapApi 
-
+from flask import url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -19,8 +19,9 @@ from urllib.request import urlopen
 # Constants
 # ---------------------------------------------------------------------------------------------------------------------------------
 
-MODE = "place"
-ZOOM = 16
+MODE_PLACE = "place"
+MODE_SEARCH = "search"
+ZOOM = 9
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------
@@ -49,15 +50,33 @@ def MapViewUrl_2(mode, location, zoom):
     return urlDict
 
 
+    # search view
+def MapViewUrl_3(mode, location, zoom):
+    key = MapApi["key"]
+    url_part = 'https://www.google.com/maps/embed/v1/{mode}?key={key}&q={location}&zoom={zoom}'
+    url = url_part.format(mode=mode, key=key, location=location, zoom=zoom)
+    urlDict = {
+        "url": url
+    }
+    return urlDict
+
+
 # Choose which map view to use
 def GetUrl(view, query):
-    if (view==1):
-        CurrLocation = GetLocation()
-        url = MapViewUrl_1("view", CurrLocation, 500)
-    elif (view==2):
-        url = MapViewUrl_2(MODE, query, ZOOM)
-    return url
-
+    url = ''
+    CurrLocation = GetLocation()
+    match view:
+        case 1:
+            url = MapViewUrl_1("view", CurrLocation, 500)
+            return url
+        case 2:
+            url = MapViewUrl_2(MODE_PLACE, query, ZOOM)
+            return url
+        case 3:
+            url = MapViewUrl_3(MODE_SEARCH, query, ZOOM)
+            return url
+        case _:
+            return "Something went wrong"
 
 
 # get users current location using geopy
@@ -78,8 +97,7 @@ def GetLocation():
 
 # Class for query form
 class QueryForm(FlaskForm):
-    query = StringField('What medical service are you looking for?', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    query = StringField('query', validators=[DataRequired()])
 
 
 # Class for query

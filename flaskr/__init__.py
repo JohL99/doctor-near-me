@@ -1,13 +1,11 @@
 # Importing flask module in the project is mandatory
 # An object of Flask class is our WSGI application.
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
-import socket
-import re
-import json
+import socket, re, json
 from urllib.request import urlopen
 
 from flaskr.myMap import GetUrl, QueryForm, SearchQuery, GetLocation
@@ -36,23 +34,17 @@ def index():
 
 @app.route('/map', methods=['GET', 'POST'])
 def mapView():
-    # you must tell the variable 'form' what you named the class, above
-    # 'form' is the variable name used in this template: index.html
     form = QueryForm()
-    message = ""
-    if form.validate_on_submit():
-        query = form.query.data
-        if query == "":
-            # empty form field
-            form.query.data = ""
-            message = "No results found"
-        else:
-            form.query.data = ""
-            queryObj = SearchQuery(query)
-            queryString = queryObj.PrintQuery()
-            return render_template("map.html", url=GetUrl(2, queryString), form=form, message=message)
+    return render_template("map.html", url=GetUrl(1, GetLocation()), form=form)
 
-    return render_template("map.html", url=GetUrl(1, GetLocation()), form=form, message=message)
+
+@app.route('/QueryHandler/', methods=['post'])
+def QueryHandler():
+    form = QueryForm()
+    if form.validate_on_submit():
+        url = GetUrl(3, form.query.data)
+        return url
+    return jsonify(data=form.errors)
 
 
 @app.route('/test')

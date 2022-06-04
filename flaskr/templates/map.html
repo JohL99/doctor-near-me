@@ -1,8 +1,43 @@
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}
-    <title>Map</title>
+
+{% block head %}
+
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function (e) {
+                var url = "{{ url_for('QueryHandler') }}"; // send the form data here.
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('form').serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        var iframe = document.getElementById('result');
+                        iframe.src = data.url;
+                        console.log(data)  // display the returned data in the console.
+                    }
+                });
+                e.preventDefault(); // block the traditional submission of the form.
+            });
+
+            // Inject our CSRF token into our AJAX request.
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
+                    }
+                }
+            })
+        });
+    </script>
+
+
+
+    {% block title %}
+        <title>Map</title>
+    {% endblock %}
+
 {% endblock %}
 
 {% block body %} 
@@ -14,16 +49,21 @@
         </li>
     <p>This is a map.</p>
     <div class="container">
-        {{ wtf.quick_form(form) }}
-
-      <p class="pt-5"><strong>{{ message }}</strong></p>        
+        <form id="query">
+            {{ form.query }}
+            {{ form.hidden_tag() }}
+            <input type="submit" value="Go"/>
+        </form>      
     </div>
+    <br><br><br>
+    <br><br><br>
     <iframe
+        id="result"
         width="850"
         height="650"
         frameborder="0" style="border:0"
         referrerpolicy="no-referrer-when-downgrade"
-        src="{{ url['url'] }}" allowfullscreen>
+        src="{{ url['url'] }}" 
         allowfullscreen>
     </iframe>
 {% endblock %}
