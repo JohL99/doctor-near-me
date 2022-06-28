@@ -9,3 +9,16 @@
     background-color: Grey;
     border-color: grey;
 }
+
+#searchbar{
+    margin-left: 0;
+}
+
+#result{
+    width: 1050px;
+    height: 850px;
+}
+
+#query{
+    width: 850px;
+}

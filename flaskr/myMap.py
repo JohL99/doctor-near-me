@@ -22,7 +22,14 @@ from urllib.request import urlopen
 MODE_PLACE = "place"
 MODE_SEARCH = "search"
 ZOOM = 9
-
+MedicalTerms = [
+                "hospital", "doctor", "dentist",
+                "psychologist", "psychiatrist", "surgeon",
+                "gp", "general practitioner", "xray",
+                "radiologist", "cardiologist", "gastro-enterologist",
+                "plastic surgeon", "medical", "medical center", 
+                "medical centre"
+                ]
 
 # ---------------------------------------------------------------------------------------------------------------------------------
 # Functions
@@ -97,7 +104,7 @@ def GetLocation():
 
 # Class for query form
 class QueryForm(FlaskForm):
-    query = StringField('query', validators=[DataRequired()])
+    query = StringField('Search for a medical professional near you.', validators=[DataRequired()])
 
 
 # Class for query

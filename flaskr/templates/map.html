@@ -3,6 +3,8 @@
 
 {% block head %}
 
+    {{ super() }}
+
     <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -41,26 +43,20 @@
 {% endblock %}
 
 {% block body %} 
-    <ul>
-        <li>
-            <a href="{{ url_for('index') }}">
-                home
-            </a>
-        </li>
-    <p>This is a map.</p>
-    <div class="container">
+    {{ super() }}
+    <br><br><br>
+    <div class="container" id="searchbar">
         <form id="query">
+            <p><i>Search for a medical porfessional near you.</i></p>
             {{ form.query }}
             {{ form.hidden_tag() }}
+            <br><br>
             <input type="submit" value="Go"/>
         </form>      
     </div>
     <br><br><br>
-    <br><br><br>
     <iframe
         id="result"
-        width="850"
-        height="650"
         frameborder="0" style="border:0"
         referrerpolicy="no-referrer-when-downgrade"
         src="{{ url['url'] }}" 

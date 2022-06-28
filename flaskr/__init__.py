@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired
 import socket, re, json
 from urllib.request import urlopen
 
-from flaskr.myMap import GetUrl, QueryForm, SearchQuery, GetLocation
+from flaskr.myMap import GetUrl, QueryForm, SearchQuery, GetLocation, MedicalTerms
 
 
 
@@ -42,8 +42,14 @@ def mapView():
 def QueryHandler():
     form = QueryForm()
     if form.validate_on_submit():
-        url = GetUrl(3, form.query.data)
-        return url
+        query = form.query.data
+        if query.lower() in MedicalTerms:
+            query = query + " near me"
+            url = GetUrl(3, query)
+            return url
+        else:
+            url = GetUrl(1, GetLocation())
+            return url
     return jsonify(data=form.errors)
 
 
